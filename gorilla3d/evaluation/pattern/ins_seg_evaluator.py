@@ -15,7 +15,7 @@ class InstanceEvaluator(gorilla.evaluation.DatasetEvaluator):
     """
     # ---------- Evaluation params ---------- #
     # overlaps for evaluation
-    OVERLAPS = np.append(np.arange(0.5, 0.95, 0.05), 0.25)
+    OVERLAPS = np.append(np.arange(0.5, 0.95, 0.05), 0.25)  # 这里没有算到0.95而只是到了0.9
     # minimum region size for evaluation [verts]
     MIN_REGION_SIZES = np.array([100])
     # distance thresholds [m]

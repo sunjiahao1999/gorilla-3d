@@ -7,8 +7,8 @@ import torch
 import torch.nn as nn
 
 try:
-    import spconv
-    from spconv.modules import SparseModule
+    import spconv.pytorch as spconv
+    from spconv.pytorch.modules import SparseModule
     MODULE = SparseModule
 except:
     MODULE = nn.Module
@@ -102,7 +102,8 @@ class AsymResidualBlock(MODULE):
 
     def forward(self, input):
         output = self.conv_1(input)
-        output.features += self.conv_2(input).features
+        output = output.replace_feature(output.features + self.conv_2(input).features)
+        # output.features += self.conv_2(input).features
 
         return output
 
@@ -172,7 +173,8 @@ class ResidualBlock(MODULE):
                                            input.batch_size)
 
         output = self.conv_branch(input)
-        output.features += self.i_branch(identity).features
+        output = output.replace_feature(output.features + self.i_branch(identity).features)
+        # output.features += self.i_branch(identity).features
 
         return output
 

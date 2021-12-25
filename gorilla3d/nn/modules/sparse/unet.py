@@ -7,8 +7,8 @@ import torch
 import torch.nn as nn
 
 try:
-    import spconv
-    from spconv.modules import SparseModule
+    import spconv.pytorch as spconv
+    from spconv.pytorch.modules import SparseModule
 except:
     pass
 
@@ -134,8 +134,8 @@ class UBlock(nn.Module):
                 output_decoder = self.u(output_decoder)
             output_decoder = self.deconv(output_decoder)
 
-            output.features = torch.cat(
-                (identity.features, output_decoder.features), dim=1)
+            output = output.replace_feature(torch.cat((identity.features, output_decoder.features), dim=1))
+            # output.features = torch.cat((identity.features, output_decoder.features), dim=1)
 
             output = self.blocks_tail(output)
 
