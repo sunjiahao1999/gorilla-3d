@@ -269,7 +269,7 @@ class InstanceEvaluator(gorilla.evaluation.DatasetEvaluator):
                                         num_ignore += gt["intersection"]
                                 proportion_ignore = float(
                                     num_ignore) / pred["instance_count"]
-                                # if not ignored append false positive
+                                # if not ignored append false positive 为什么要去掉这些实例？
                                 if proportion_ignore <= overlap_th:
                                     cur_true = np.append(cur_true, 0)
                                     confidence = pred["confidence"]
@@ -290,7 +290,7 @@ class InstanceEvaluator(gorilla.evaluation.DatasetEvaluator):
                         y_true_sorted = y_true[score_arg_sort]
                         y_true_sorted_cumsum = np.cumsum(y_true_sorted)
 
-                        # unique thresholds
+                        # unique thresholds 这是在干什么？是为了逐步提高确信度
                         (thresholds,
                          unique_indices) = np.unique(y_score_sorted,
                                                      return_index=True)

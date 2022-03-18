@@ -38,11 +38,10 @@ def f_test(scene):
 
 
 def f(scene):
-    fn = f"scans/{scene}/{scene}_vh_clean_2.ply"
-    fn2 = f"scans/{scene}/{scene}_vh_clean_2.labels.ply"
-    fn3 = f"scans/{scene}/{scene}_vh_clean_2.0.010000.segs.json"
-    fn4 = f"scans/{scene}/{scene}.aggregation.json"
-    print(fn)
+    fn = f"scans/{scene}/{scene}_vh_clean_2.ply" # Cleaned and decimated mesh for semantic annotations
+    fn2 = f"scans/{scene}/{scene}_vh_clean_2.labels.ply" # Visualization of aggregated semantic segmentation
+    fn3 = f"scans/{scene}/{scene}_vh_clean_2.0.010000.segs.json" # Over-segmentation of annotation mesh
+    fn4 = f"scans/{scene}/{scene}.aggregation.json" # Aggregated instance-level semantic annotations on lo-res meshes
 
     save_path = osp.join(split, scene + "_inst_nostuff.pth")
     if osp.exists(save_path):
@@ -80,13 +79,13 @@ def f(scene):
                 assert (x["label"] in g_raw2scannetv2.keys())
     if (scene == "scene0217_00" and instance_segids[0] == instance_segids[int(
             len(instance_segids) / 2)]):
-        instance_segids = instance_segids[:int(len(instance_segids) / 2)]
+        instance_segids = instance_segids[:int(len(instance_segids) / 2)] #这里应该是217_00这个场景的标注有重复，这里去除了后一半的标签
     check = []
     for i in range(len(instance_segids)):
         check += instance_segids[i]
     assert len(np.unique(check)) == len(check)
 
-    instance_labels = np.ones(semantic_labels.shape[0]) * -100
+    instance_labels = np.ones(semantic_labels.shape[0]) * -100 # 非18类的实例怎么办？
     for i in range(len(instance_segids)):
         segids = instance_segids[i]
         pointids = []

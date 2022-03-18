@@ -200,7 +200,7 @@ def visualize_instance_mask(clusters: np.ndarray,
     rgb = inst_label_pred_rgb
 
     pred_mesh.vertex_colors = o3d.utility.Vector3dVector(rgb / 255)
-    points[:, 1] += (points[:, 1].max() + 0.5)
+    points[:, 1] += (points[:, 1].max() + 0.5) #这一步是为什么
     pred_mesh.vertices = o3d.utility.Vector3dVector(points)
     mesh += pred_mesh
     o3d.io.write_triangle_mesh(osp.join(visual_dir, room_name + ".ply"), mesh)
